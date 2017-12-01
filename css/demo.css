@@ -1,0 +1,84 @@
+*{
+	box-sizing: border-box;
+}
+body{
+	background:#f58484;
+}
+.container{
+	max-width: 700px;
+	margin:0 auto;
+	position: relative;
+}
+h1{
+	text-align:center;
+	color:#fff;
+}
+.add-task input{
+	border: 0;
+	width:88%;
+	padding:10px;
+	background: #ddd;
+	color: #333;
+	border-radius: 3px;
+
+}
+.add-task button,.remind button{
+	border:0;
+	background: #f73900;
+    color:#fff;
+    border-radius: 3px;
+    padding:10px;
+}
+.task-list{
+	margin:5px 0;
+}
+.task-item{
+	padding: 10px;
+	background: #fff;
+	color: #333;
+	margin-bottom: 2px;
+	border-radius: 3px;
+	box-shadow: 0 2px 3px rgba(0,0,0,.4);
+	cursor: pointer;
+}
+.task-item:hover{
+	background: #ddd;
+}
+.task-detail-mask{
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right:0;
+	background: rgba(30,30,30,0.6)
+	;
+	border-radius: 3px;
+	padding: 10px;
+}
+.task-detail>*{
+	margin:5px;
+}
+.task-detail>.remind>*{
+	margin:5px;
+}
+.task-detail{
+	position: absolute;
+	bottom:0;
+	right: 0;
+	padding: 10px;
+	background: #fff;
+	color:#333;
+	width:50%;
+	height:100%;
+	border-radius: 3px;
+}
+.remind input,textarea{
+	border:0;
+	padding: 10px;
+	border-radius: 3px;
+	width:100%;
+	background: #ddd;
+}
+.task-detail,.task-detail-mask{
+	display: none;
+}

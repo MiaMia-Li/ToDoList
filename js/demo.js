@@ -11,7 +11,7 @@ $(function(){
 		new_task.content=$(this).find('input[name="content"]').val();
 		if(!new_task.content) return;
 		if(add_task(new_task)){
-			render_task_item();
+			render_task_list();
 			$input.val(null);
 		}
 	})
@@ -28,11 +28,14 @@ $(function(){
 		show_task_detail(index);
 	})
 	$("body").on("click","#complete",function(){
-		var is_complete=$(this).is(':checked');
-		var item=$(this).parent().parent();
-		if(is_complete){
-			$(item).addClass("completed");
-			$(".task-list").append(item);
+		var index=$(this).parent().parent().data('index');
+		var item=store.get('task_list')[index];
+		if(item.complete){
+			update_task(index,{complete:false});
+			//$(this).attr('checked',true);
+		}else{
+			update_task(index,{complete:true});
+			//$(this).attr('checked',false);
 		}
 	})
 	function show_task_detail(index){
@@ -68,7 +71,6 @@ $(function(){
 			data.content=$(this).find('[name=content]').val();
 			data.desc=$(this).find('[name=desc]').val();
 			data.remind_date=$(this).find('[name=remind_date]').val();
-			console.log("data",data)
 			update_task(index,data);
 			$(".task-detail-mask").hide();
 		    $(".task-detail").hide();
@@ -78,7 +80,7 @@ $(function(){
 	function update_task(index,data){
 		if(!index||!task_list[index])
 			return;
-		task_list[index]=data;
+		task_list[index]=$.extend({},task_list[index],data);
 		refresh_task_list();
 	}
 	$(".task-detail-mask").on("click",function(){
@@ -108,15 +110,28 @@ $(function(){
 	function render_task_list(){
 		var $task_list=$(".task-list");
 		$task_list.html('');
+		var complete_items=[];
+		var item=task_list[i];
 		for(var i=0;i<task_list.length;i++){
+			var item=task_list[i];
+			if(item&&item.complete){
+				complete_items[i]=item;
+			}else{
 			var $task=render_task_item(task_list[i],i);
 			$task_list.prepend($task);
+		    }
+		}
+		for (var j=0;j<complete_items.length;j++){
+			$task=render_task_item(complete_items[j],j);
+			if(!$task) continue;
+			$task.addClass("completed");
+			$task_list.append($task);
 		}
 	}
 	function render_task_item(data,index){
 		if(!data||!index) return;
 		var list_item_tpl='<div class="task-item" data-index="'+index+'">'+
-					'<span><input type="checkbox" id="complete"></span>'+
+					'<span><input type="checkbox" id="complete" class=(data.complete?"checked":"")></span>'+
 					'<span class="task-content">'+data.content+'</span>'+
 					'<span class="fr">'+
 					'<span class="pic" id="delete"> 删除</span>'+
@@ -128,4 +143,4 @@ $(function(){
 	}
 
 
-}) 
+});

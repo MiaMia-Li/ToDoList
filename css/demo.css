@@ -111,9 +111,8 @@ h1{
     font-weight: 900;
     cursor: pointer;
 }
-.task-item.completed{
+.completed{
 	color: #aaa;
-	background: #ddd;
 	opacity: 0.4;
 	text-decoration: line-through;
 }
